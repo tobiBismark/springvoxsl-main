@@ -1,35 +1,17 @@
-# Netlify configuration for TanStack Start project
-# This configuration deploys the project as a client-side SPA
+# Netlify configuration for TanStack Start on Nitro's native Netlify preset
 
 [build]
 command = "npm run build"
-publish = "dist/client"
-functions = "netlify/functions"
+publish = "dist"
 
 [build.environment]
 NODE_VERSION = "20"
-
-# Enable Netlify Edge Functions for server-side rendering
-# Uncomment the line below if you want to use Edge Functions
-# command = "npm run build && npm run build:edge-functions"
 
 [dev]
 command = "npm run dev"
 port = 3000
 targetPort = 5173
 
-# SPA routing - redirect all requests to index.html for client-side routing
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-
-# Don't redirect API calls or static assets
-[[redirects]]
-from = "/api/*"
-to = "/.netlify/functions/:splat"
-status = 200
-
 [context.production]
 command = "npm run build"
-publish = "dist/client"
+publish = "dist"
