@@ -221,17 +221,6 @@ export const SERVICES: ServiceDetail[] = [
       "Regular health checks and reporting",
       "Capacity planning and growth support",
     ],
-    icon: Wrench,
-    features: [
-      "Technical support",
-      "System monitoring",
-      "Maintenance services",
-      "Security updates",
-      "Performance optimization",
-      "Incident management",
-      "Managed infrastructure",
-      "SLA-based support",
-    ],
   },
 ];
 

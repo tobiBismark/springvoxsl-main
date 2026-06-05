@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SolutionsRouteImport } from './routes/solutions'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -24,11 +23,6 @@ import { Route as SolutionsIdsCybersecurityRouteImport } from './routes/solution
 const SolutionsRoute = SolutionsRouteImport.update({
   id: '/solutions',
   path: '/solutions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -85,7 +79,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/services': typeof ServicesRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/solutions/ids-cybersecurity': typeof SolutionsIdsCybersecurityRoute
   '/solutions/rekall-iq': typeof SolutionsRekallIqRoute
@@ -98,7 +91,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/services': typeof ServicesRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/solutions/ids-cybersecurity': typeof SolutionsIdsCybersecurityRoute
   '/solutions/rekall-iq': typeof SolutionsRekallIqRoute
@@ -112,7 +104,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/services': typeof ServicesRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/solutions/ids-cybersecurity': typeof SolutionsIdsCybersecurityRoute
   '/solutions/rekall-iq': typeof SolutionsRekallIqRoute
@@ -127,7 +118,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/services'
-    | '/sitemap.xml'
     | '/solutions'
     | '/solutions/ids-cybersecurity'
     | '/solutions/rekall-iq'
@@ -140,7 +130,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/services'
-    | '/sitemap.xml'
     | '/solutions'
     | '/solutions/ids-cybersecurity'
     | '/solutions/rekall-iq'
@@ -153,7 +142,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/services'
-    | '/sitemap.xml'
     | '/solutions'
     | '/solutions/ids-cybersecurity'
     | '/solutions/rekall-iq'
@@ -167,7 +155,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   ServicesRoute: typeof ServicesRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
 }
 
@@ -178,13 +165,6 @@ declare module '@tanstack/react-router' {
       path: '/solutions'
       fullPath: '/solutions'
       preLoaderRoute: typeof SolutionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -277,19 +257,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   ServicesRoute: ServicesRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

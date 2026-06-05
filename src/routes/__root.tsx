@@ -5,9 +5,8 @@ import {
   createRootRouteWithContext,
   useRouter,
   HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
@@ -100,18 +99,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+  useRevealOnScroll();
   const structuredData = getOrganizationStructuredData();
 
   return (
-    <html lang="en">
-      <head>
+    <QueryClientProvider client={queryClient}>
+      <>
         <HeadContent />
         {structuredData.map((entry, index) => (
           <script
@@ -120,28 +120,14 @@ function RootShell({ children }: { children: ReactNode }) {
             dangerouslySetInnerHTML={{ __html: JSON.stringify(entry) }}
           />
         ))}
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
-function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-  useRevealOnScroll();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+        <div className="flex min-h-screen flex-col">
+          <Navbar />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </>
     </QueryClientProvider>
   );
 }
